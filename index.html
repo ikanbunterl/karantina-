@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0f0f0f">
+  <title>8-Bit Food RNG v1.5.3</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg-layer"></div>
+  <div class="live-bg-layer">
+    <video id="liveBgVideo" class="live-bg-video" loop muted playsinline></video>
+  </div>
+
+  <div class="plates-bar">
+    <span class="wallet-value" id="plateCount">0</span>
+    <span class="buff-indicator" id="buffIndicator">⏳ No Buffs</span>
+  </div>
+
+  <button class="sidebar-toggle" onclick="toggleSidebar()">☰ MENU</button>
+  <div class="sidebar-container">
+    <button class="sidebar-close-btn" onclick="toggleSidebar()">✕</button>
+    <div class="sidebar-tabs">
+      <button class="sidebar-tab-btn active" data-tab="collectionTab">📦 Koleksi</button>
+      <button class="sidebar-tab-btn" data-tab="inventoryTab">🎒 Inv</button>
+      <button class="sidebar-tab-btn" data-tab="shopTab">🛒 Shop</button>
+      <button class="sidebar-tab-btn" data-tab="creatorTab">👨‍💻 Dev</button>
+      <button class="sidebar-tab-btn" data-tab="logTab">📝 Log</button>
+      <button class="sidebar-tab-btn" data-tab="settingsTab">⚙️</button>
+    </div>
+    <div class="search-filter-bar" style="padding: 8px 12px 0 12px;">
+      <input type="text" id="searchCollection" class="search-input" placeholder="🔍 Cari item..." data-target="collectionGrid">
+    </div>
+    <div class="search-filter-bar" style="padding: 0 12px 8px 12px;">
+      <button class="filter-btn active" data-target="collectionGrid" data-rarity="all">All</button>
+      <button class="filter-btn" data-target="collectionGrid" data-rarity="common">🔵</button>
+      <button class="filter-btn" data-target="collectionGrid" data-rarity="rare">🟣</button>
+      <button class="filter-btn" data-target="collectionGrid" data-rarity="epic">🟡</button>
+      <button class="filter-btn" data-target="collectionGrid" data-rarity="legendary">🔶</button>
+    </div>
+    <div class="sidebar-content">
+      <div class="tab-pane active" id="collectionTab"><div class="scroll-grid" id="collectionGrid"></div></div>
+      <div class="tab-pane" id="inventoryTab">
+        <div class="search-filter-bar">
+          <input type="text" id="searchInventory" class="search-input" placeholder="🔍 Cari inventory..." data-target="inventoryGrid">
+        </div>
+        <div class="search-filter-bar">
+          <button class="filter-btn active" data-target="inventoryGrid" data-rarity="all">All</button>
+          <button class="filter-btn" data-target="inventoryGrid" data-rarity="common">🔵</button>
+          <button class="filter-btn" data-target="inventoryGrid" data-rarity="rare">🟣</button>
+          <button class="filter-btn" data-target="inventoryGrid" data-rarity="epic">🟡</button>
+          <button class="filter-btn" data-target="inventoryGrid" data-rarity="legendary">🔶</button>
+        </div>
+        <div class="scroll-grid" id="inventoryGrid"></div>
+      </div>
+      <div class="tab-pane" id="shopTab"><div class="scroll-grid" id="shopGrid"></div></div>
+      <div class="tab-pane" id="creatorTab"><div id="creatorList"></div></div>
+      <div class="tab-pane" id="logTab"><div id="updateLogList"></div></div>
+      <div class="tab-pane" id="settingsTab">
+        <div class="settings-group"><label>🔊 Volume</label><input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.8"></div>
+        <div class="settings-group"><label>🌙 Dark Mode</label><button id="darkModeToggle" class="toggle-btn">OFF</button></div>
+        <div class="settings-group"><label>🔋 Power Saving</label><button id="powerSavingToggle" class="toggle-btn">OFF</button></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="game-main">
+    <div class="game-title"><h1>8-BIT FOOD RNG</h1></div>
+    <div class="spin-area">
+      <div class="spin-frame"></div>
+      <div class="spin-display" id="spinDisplay">🍽️</div>
+    </div>
+    <div class="controls-area">
+      <button class="ctrl-btn btn-spin" id="spinBtn">🎲 SPIN (-1)</button>
+      <button class="ctrl-btn btn-free" id="freeSpinBtn">FREE (0)</button>
+    </div>
+  </main>
+
+  <div class="modal" id="itemModal">
+    <div class="modal-content">
+      <button class="close-btn" id="closeModal">✕</button>
+      <div class="modal-image" id="modalImage"></div>
+      <h2 class="modal-title" id="modalTitle">Nama Item</h2>
+      <span class="modal-rarity" id="modalRarity">RARITY</span>
+      <p class="modal-desc" id="modalDesc">Deskripsi...</p>
+      <div class="modal-actions">
+        <button class="action-btn consume-btn" id="consumeBtn">MAKAN</button>
+        <button class="action-btn keep-btn" id="keepBtn">SIMPAN</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tooltip" class="tooltip"></div>
+  <div id="saveIndicator" class="save-indicator">💾 Auto-Saving...</div>
+
+  <audio id="sfx-spin" src="assets/sounds/spin.mp3" preload="auto"></audio>
+  <audio id="sfx-win" src="assets/sounds/win.mp3" preload="auto"></audio>
+  <audio id="bgm" src="assets/sounds/bgm1.mp3" loop preload="auto"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
